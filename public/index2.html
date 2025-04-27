@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Patient Registration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <style>
+    body {
+      font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 200vh;
+      background: #e6f2f7;
+      position: relative;
+      overflow-x: hidden;
+    }
+    #bgVideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -10;
+    }
+    #overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(0,0,0,0.2);
+      z-index: -5;
+    }
+    .input-style {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background: #f9f9f9;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+    .input-style:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+  </style>
+</head>
+
+<body class="relative flex flex-col items-center justify-start min-h-screen pt-20">
+  <footer style="margin-top: 40px; padding: 20px; text-align: center; background: rgba(255, 255, 255, 0.3); border-radius: 12px; max-width: 750px; margin-left: auto; margin-right: auto; backdrop-filter: blur(5px);">
+    <h1 style="font-size: 50px; color: rgb(6, 47, 88) ; margin-bottom: 10px;">Re-Medi</h1>
+    <p style="font-size: 20px; color: #555;">Re-Medi isn't just an app — it's peace of mind.</p>
+</footer>
+
+  <video id="bgVideo" autoplay muted loop playsinline>
+    <source src="healthcare.mp4" type="video/mp4">
+  </video>
+  <div id="overlay"></div>
+
+  <div class="container bg-white/60 backdrop-blur-md p-10 rounded-2xl shadow-2xl max-w-2xl w-full mx-auto z-10 mt-12">
+    <h2 class="text-center text-3xl font-bold text-blue-600 mb-8">Patient Registration Form</h2>
+
+    <form id="registrationForm" class="space-y-6">
+      <div><label class="font-semibold text-gray-800">Patient ID:</label><input type="text" id="patientId" required class="input-style"></div>
+      <div><label class="font-semibold text-gray-800">Name:</label><input type="text" id="name" required class="input-style"></div>
+      <div><label class="font-semibold text-gray-800">Age:</label><input type="number" id="age" required class="input-style"></div>
+      <div><label class="font-semibold text-gray-800">Sex:</label><input type="text" id="sex" required class="input-style"></div>
+      <div><label class="font-semibold text-gray-800">Email:</label><input type="email" id="email" required class="input-style"></div>
+
+      <h3 class="text-xl font-semibold text-blue-500 mt-10">Medicine Details</h3>
+      <div id="medicines" class="space-y-6">
+        <div class="medicine space-y-4">
+          <label class="font-semibold text-gray-800">Medicine Name:</label>
+          <input type="text" class="medName input-style" required>
+
+          <label class="font-semibold text-gray-800">Time to Take:</label>
+          <input type="time" class="time input-style" required step="60">
+
+          <label class="font-semibold text-gray-800">Number of Days Prescribed (leave blank for daily):</label>
+          <input type="number" class="daysPrescribed input-style" placeholder="e.g., 20">
+
+          <label class="font-semibold text-gray-800">Additional Comments:</label>
+          <textarea class="comments input-style"></textarea>
+        </div>
+      </div>
+
+      <button type="button" id="addMedicineButton" class="w-full py-3 mt-4 bg-green-500 hover:bg-green-600 transition-all duration-300 text-white font-bold rounded-xl">+ Add Another Medicine</button>
+
+      <button type="submit" class="w-full py-4 bg-blue-600 hover:bg-blue-700 transition-all duration-300 text-white font-bold rounded-xl mt-6">Register Patient</button>
+    </form>
+
+    <p id="responseMessage" class="text-center font-semibold text-green-600 mt-8"></p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    document.getElementById('addMedicineButton').addEventListener('click', function() {
+      const medicinesDiv = document.getElementById('medicines');
+      const newMedicine = document.createElement('div');
+      newMedicine.classList.add('medicine', 'space-y-4', 'mt-6');
+      newMedicine.innerHTML = `
+        <label class="font-semibold text-gray-800">Medicine Name:</label>
+        <input type="text" class="medName input-style" required>
+
+        <label class="font-semibold text-gray-800">Time to Take:</label>
+        <input type="time" class="time input-style" required step="60">
+
+        <label class="font-semibold text-gray-800">Number of Days Prescribed (leave blank for daily):</label>
+        <input type="number" class="daysPrescribed input-style" placeholder="e.g., 20">
+
+        <label class="font-semibold text-gray-800">Additional Comments:</label>
+        <textarea class="comments input-style"></textarea>
+      `;
+      medicinesDiv.appendChild(newMedicine);
+
+      flatpickr(newMedicine.querySelector(".time"), {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+      });
+    });
+
+    document.getElementById('registrationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const patientId = String(document.getElementById('patientId').value);
+      const name = document.getElementById('name').value;
+      const age = document.getElementById('age').value;
+      const sex = document.getElementById('sex').value;
+      const email = document.getElementById('email').value;
+
+      const medNames = document.querySelectorAll('.medName');
+      const times = document.querySelectorAll('.time');
+      const daysInputs = document.querySelectorAll('.daysPrescribed');
+      const comments = document.querySelectorAll('.comments');
+
+      const medicines = {};
+      for (let i = 0; i < medNames.length; i++) {
+        medicines[`M${i+1}`] = {
+          name: medNames[i].value,
+          time: times[i].value,
+          daysPrescribed: parseInt(daysInputs[i].value) || 0,
+          comments: comments[i].value
+        };
+      }
+
+      const data = { pid: patientId, name, age, sex, email, medicines };
+
+      try {
+        const res = await fetch('/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        document.getElementById('responseMessage').innerText = result.message;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('responseMessage').innerText = 'Error registering patient';
+      }
+    });
+
+    flatpickr(".time", {
+      enableTime: true,
+      noCalendar: true,
+      dateFormat: "H:i",
+      time_24hr: true
+    });
+  </script>
+
+</body>
+</html>

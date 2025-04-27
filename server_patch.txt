@@ -1,0 +1,78 @@
+
+// ============ PATCH: Dose tracking additions ============
+
+// Extend medicine schema
+// (assuming it's inside your Patient model's definition)
+const medicineSchema = new mongoose.Schema({
+    pillName: String,
+    time: String,
+    daysPrescribed: { type: Number, default: 0 },
+    startDate: { type: Date, default: Date.now },
+    dosesSent: { type: Number, default: 0 }
+});
+
+// Update your patientSchema accordingly
+const patientSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    medicines: [medicineSchema]
+});
+
+// (rest of your server.js continues)
+
+// Patch /register route to enrich medicine data
+app.post('/register', async (req, res) => {
+    const { name, email, medicines } = req.body;
+
+    try {
+        const enrichedMedicines = medicines.map(med => ({
+            ...med,
+            daysPrescribed: med.daysPrescribed || 0,
+            startDate: new Date(),
+            dosesSent: 0
+        }));
+
+        const newPatient = new Patient({ name, email, medicines: enrichedMedicines });
+        await newPatient.save();
+        res.status(200).send('Registration successful');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error registering patient');
+    }
+});
+
+// Patch cron job
+cron.schedule('0 * * * *', async () => {
+    console.log('Running cron job...');
+    const patients = await Patient.find();
+
+    for (const patient of patients) {
+        for (const medicine of patient.medicines) {
+            const now = new Date();
+            const currentHour = now.getHours();
+            const medHour = parseInt(medicine.time.split(':')[0]);
+
+            if (medicine.daysPrescribed === 0 || medicine.dosesSent < medicine.daysPrescribed) {
+                if (currentHour === medHour) {
+                    const mailOptions = {
+                        from: process.env.EMAIL_ID,
+                        to: patient.email,
+                        subject: `Medication Reminder: ${medicine.pillName}`,
+                        text: `Hi ${patient.name},\n\nThis is a reminder to take your medicine "${medicine.pillName}".\nDose ${medicine.dosesSent + 1} out of ${medicine.daysPrescribed || 'daily'}.\n\nStay healthy!\n- MediMind`
+                    };
+
+                    try {
+                        await transporter.sendMail(mailOptions);
+                        console.log(`Email sent to ${patient.email} for ${medicine.pillName}`);
+
+                        medicine.dosesSent += 1;
+                        await patient.save();
+                    } catch (err) {
+                        console.error(`Error sending email: ${err}`);
+                    }
+                }
+            }
+        }
+    }
+});
+// ============ END PATCH ============
