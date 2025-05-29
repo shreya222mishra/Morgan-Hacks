@@ -1,4 +1,5 @@
-#Inspiration
+Inspiration
+
 "It's not about the technology, the money or the solution, it's about people."
 
 Every year, millions of elderly and chronically ill patients risk their lives not because of lack of treatment, but because of missed or mistaken medications. The World Health Organization reports that poor medication adherence causes 10% of hospitalization and 125,000 preventable deaths annually in the U.S. alone (Zullig et.al, 2018).
@@ -11,7 +12,8 @@ Our inspiration comes from watching loved ones - grandparents, friends, neighbor
 
 We believe healthcare should be simple, accessible, and compassionate - because no one should suffer simply because they forgot or couldn’t understand which medicine to take.
 
-#What it does
+What it does
+
 Re-Medi (Reminder + Medication) was built to tackle this problem:
 
 ✅ Real-time visual confirmation: through the patient's camera, the application will look for the correct medication that the patient should take according to each reminder and verify in real time, ensuring the correct pill is taken. It then provides patients with essential instructions like "before/after meal", dosage, helpful facts about the medication (powered by Gemini API).
@@ -22,7 +24,8 @@ Re-Medi (Reminder + Medication) was built to tackle this problem:
 
 ✅ Secure patient data: stored safely using MongoDB Atlas + encrypted APIs.
 
-#How we built it
+How we built it
+
 We designed the backend using Node.js and Express.js to manage patient data and medication schedules stored in MongoDB Atlas.
 
 Built the frontend with React.js and TailwindCSS for a clean, accessible user interface.
