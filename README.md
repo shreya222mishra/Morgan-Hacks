@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+#Inspiration
+"It's not about the technology, the money or the solution, it's about people."
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Every year, millions of elderly and chronically ill patients risk their lives not because of lack of treatment, but because of missed or mistaken medications. The World Health Organization reports that poor medication adherence causes 10% of hospitalization and 125,000 preventable deaths annually in the U.S. alone (Zullig et.al, 2018).
 
-## Available Scripts
+Patients living alone, those battling memory loss, or struggling with language barriers often cannot reliably identify their medications or follow complex schedules. A wrong pill at the wrong time can turn manageable illnesses into life-threatening emergencies.
 
-In the project directory, you can run:
+What about reminders? - most reminder apps just buzz; they don’t check if the right pill is actually taken.
 
-### `npm start`
+Our inspiration comes from watching loved ones - grandparents, friends, neighbors - struggle daily with pill bottles that look identical and instructions they can’t easily read. Their fear, confusion, and helplessness drove us to act.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+We believe healthcare should be simple, accessible, and compassionate - because no one should suffer simply because they forgot or couldn’t understand which medicine to take.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#What it does
+Re-Medi (Reminder + Medication) was built to tackle this problem:
 
-### `npm test`
+✅ Real-time visual confirmation: through the patient's camera, the application will look for the correct medication that the patient should take according to each reminder and verify in real time, ensuring the correct pill is taken. It then provides patients with essential instructions like "before/after meal", dosage, helpful facts about the medication (powered by Gemini API).
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+✅ Timely Reminders: scheduled, personalized emails with direct link to the application, with information on dosage tracking for reassurance and safety.
 
-### `npm run build`
+✅ Minimal patient effort: intuitive, no complicated installations or maintenance.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+✅ Secure patient data: stored safely using MongoDB Atlas + encrypted APIs.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#How we built it
+We designed the backend using Node.js and Express.js to manage patient data and medication schedules stored in MongoDB Atlas.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Built the frontend with React.js and TailwindCSS for a clean, accessible user interface.
 
-### `npm run eject`
+Implemented Gmail API to send personalized email reminders to patients.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Integrated Google Gemini API to generate smart, positive pill-taking tips automatically.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Created an elegant splash screen for better user experience.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Built and deployed on a single unified AWS EC2 server so both frontend and backend operate seamlessly from the same domain.
