@@ -1,4 +1,5 @@
-[Re-Medi](https://devpost.com/software/re-medi)
+[Re-Medi]
+(https://devpost.com/software/re-medi)
 
 "It's not about the technology, the money or the solution, it's about people."
 
