@@ -1,4 +1,4 @@
-Inspiration
+[Re-Medi](https://devpost.com/software/re-medi)
 
 "It's not about the technology, the money or the solution, it's about people."
 
@@ -29,6 +29,7 @@ How we built it
 We designed the backend using Node.js and Express.js to manage patient data and medication schedules stored in MongoDB Atlas.
 
 Built the frontend with React.js and TailwindCSS for a clean, accessible user interface.
+
 
 Implemented Gmail API to send personalized email reminders to patients.
 
